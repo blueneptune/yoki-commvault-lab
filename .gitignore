@@ -1,0 +1,18 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.idea/
+
+# Real credentials live here; only the *.example file is tracked.
+config/*.env
+config/.*.renewed.json
+config/.*.tmp
+config/.*.token.lock
+
+# Generated passwords and run state, and Commvault's install media
+# (several GB - see docs/lab-noise.md for where it comes from).
+lab/.state/
+lab/media/
