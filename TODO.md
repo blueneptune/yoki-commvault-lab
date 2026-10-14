@@ -43,7 +43,7 @@ commit is on.
 
 ## The rig
 
-5. **Files that vanish mid-backup.** A stage that gives a container
+5. **Files that vanish mid-backup** (catalogue F04, F05). A stage that gives a container
    client a subclient over a folder of a few thousand files, starts a
    backup, waits for it to leave the scan phase, then deletes files,
    folders and a large batch. Produces what the lab cannot today:
@@ -54,7 +54,7 @@ commit is on.
    - a running job to watch, for the SDK's item 7;
    - a dependable "Completed w/ one or more errors" for blt.
 
-6. **A file in use on Windows.** A file held open with no sharing on the
+6. **A file in use on Windows** (catalogue F22). A file held open with no sharing on the
    CommServe, under a subclient with VSS turned off, gives the realistic
    "being used by another process" failure. Needs a process started on
    the VM by hand; optional.
@@ -65,3 +65,44 @@ commit is on.
 
 8. **The `blt-lab-` prefix.** Kept so teardown finds what exists. If it
    is ever renamed, teardown has to know both names for a while.
+
+## Failure catalogue
+
+`docs/failure-catalogue.md`: the ways a backup can fail, the codes
+Commvault gives each (from the lab, or from its knowledge base and
+documentation where not seen here yet), and which ones the lab can
+cause on purpose - F01 to F24, with a priority and the risk of each.
+Requested 2026-10-14. Purpose: a known, repeatable failure for each
+kind, so the SDK's job calls are proven on it and blt's answer for it
+can be checked.
+
+9. **A failure stage: `lab/60-fail.sh <id>`.** One command per
+   catalogue scenario that causes the failure, waits for the job to
+   end, undoes what it changed, and records the job id, status, code,
+   reasons, attempts, events and failed items (catalogue, "What each
+   run records"). Each scenario's undo is part of it, and runs even when
+   the scenario fails. Built once, then a scenario at a time.
+
+10. **Priority 1: F01, F02, F04, F05.** Client unreachable at start,
+    client lost mid-backup, files vanishing mid-backup, many failed
+    files. All on container clients, all undone by restarting or
+    reconnecting a container. Between them they prove the SDK's
+    `failed_items()` on backup-phase failures (its item 6) and give it
+    running and pending jobs (its item 7) - the pending-and-retried path
+    has not been seen at all yet.
+
+11. **Priority 2: F03, F10, F11, F13, F14.** Too many restarts, and the
+    SQL Server scenarios - mostly on the SQL container, using
+    `sql-offline` / `sql-online` and the instance credential that exist.
+
+12. **Priority 3 and 4: the rest.** Storage, deduplication, VSS, job
+    timeouts, blackout windows, a Job Manager restart. Each changes
+    something the whole lab depends on, so each is run only with its
+    undo checked first, and F19, F20 and F24 only if they are wanted.
+
+13. **Codes from the catalogue into the SDK.** Once codes are seen
+    here, a table of them in the SDK's guide ("Why a job failed"), so a
+    caller can tell an unreachable client from a full disk by
+    `pending_reason_code` without reading reason text. Not a lookup of
+    every Commvault code - the ones the lab has proven.
+

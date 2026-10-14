@@ -95,4 +95,7 @@ merged and from GitHub a month after their release. Commit small, with
 tests where there is something to test, and say in each commit what
 running it against the lab showed.
 
+`docs/failure-catalogue.md` lists the ways a backup can fail, the
+codes Commvault gives them, and which ones the lab can cause.
+
 `TODO.md` has what is open.
