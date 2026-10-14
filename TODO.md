@@ -11,7 +11,7 @@ commit is on.
 | ~~1~~ | ~~Stand-alone: own connection code, project, README~~ | `58a5e90`, `084724e`, `6c2ece3` | 2026.10.W03 |
 | ~~2~~ | ~~On GitHub~~ | | 2026.10.W03 |
 | 3 | A login of the lab's own on cv-toaster | | |
-| 4 | `lab/` removed from blt, pointing here | | |
+| ~~4~~ | ~~`lab/` removed from blt, pointing here~~ | blt `d8c6c84` | blt 2026.10.W03 |
 
 1. ~~**Stand-alone.**~~ **Done 2026-10-14.** The lab's five commits from blt, replayed here with
    their authors and dates; then its own copy of blt's settings, token
@@ -33,7 +33,8 @@ commit is on.
    file through `CV_LAB_CONFIG_DIR` (README, "Connecting"). Done in
    Command Center, by hand.
 
-4. **Out of blt.** In `blt-v5-poc`, on its release branch: remove
+4. ~~**Out of blt.**~~ **Done 2026-10-14**, blt `d8c6c84`, merged into
+   blt's `release/2026.10.W03`. In `blt-v5-poc`, on its release branch: remove
    `lab/` and `docs/lab-noise.md`, and point its README, `TODO.md`,
    `docs/commvault-sdk.md`, `docs/blt-flow.md` and
    `docs/production-setup.md` here. `lab/media` and `lab/.state` were
