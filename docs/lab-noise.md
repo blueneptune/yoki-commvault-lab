@@ -21,12 +21,12 @@ anywhere and no other machine is involved.
 lab/00-preflight.sh     # look, change nothing
 lab/10-setup.sh         # create the blt-lab-* subclients
 lab/20-noise.sh         # one round of jobs
-./collect.sh cv-toaster # let blt collect them
+./collect.sh cv-toaster # in blt-v5-poc: let blt collect them
 ```
 
-All four lab scripts take an optional CommCell name (default
-`cv-toaster`) and read the same `config/<commcell>.env` blt does,
-including token renewal.
+All the lab scripts take an optional CommCell name (default
+`cv-toaster`) and read `config/<commcell>.env` - the same format blt
+uses, including token renewal (see the README, "Connecting").
 
 ### What setup creates
 

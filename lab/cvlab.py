@@ -1,7 +1,9 @@
 """The lab rig: make a CommServe produce jobs for blt to collect.
 
-Not part of blt. It only borrows blt's Commvault login (same .env file,
-same token renewal) and then drives the CommServe's REST API directly.
+It started inside blt, which it makes jobs for, and now lives here so it
+can serve the Commvault SDK as well. It connects the way blt does (same
+.env format, same token renewal, commvault_lab.connect) and then drives
+the CommServe through the SDK.
 
 What it sets up is deliberately small and all on the CommServe's *own*
 file-system client, so it needs no other machine: a few subclients named
@@ -46,8 +48,8 @@ from commvault_sdk import CommvaultClient
 from loguru import logger
 from sdk_primer import SDKError, configure_logging
 
-from blt.collector.connect import commvault_client
-from blt.collector.settings import load_settings
+from commvault_lab.connect import commvault_client
+from commvault_lab.settings import default_config_dir, load_settings
 
 PREFIX = "blt-lab-"
 
@@ -94,7 +96,7 @@ ACTIVE = {"running", "waiting", "pending", "queued", "suspended", "suspend pendi
 
 
 class Lab:
-    """Everything the lab does to the CommServe goes through blt's
+    """Everything the lab does to the CommServe goes through the
     Commvault SDK (`self.cv`, a CommvaultClient built with
     allow_changes=True - the lab is the one place that is meant to change
     things). Nothing here builds a URL."""
@@ -824,7 +826,7 @@ def main() -> None:
         ],
     )
     parser.add_argument("--commcell", default="cv-toaster")
-    parser.add_argument("--config-dir", type=Path, default=Path("config"))
+    parser.add_argument("--config-dir", type=Path, default=default_config_dir())
     parser.add_argument("--plan", default="Standard Plan")
     parser.add_argument("--count", type=int, default=3, help="clients: how many containers")
     parser.add_argument("--databases", type=int, default=10, help="sql: user databases to create")
