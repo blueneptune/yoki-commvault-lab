@@ -86,7 +86,7 @@ go in `docs/lab-noise.md`.
 ## Releases
 
 The same weekly cadence as blt and the SDK, and the same branch names -
-see the SDK's README, "Releases", for the whole of it. In short: work
+see the SDK's docs/development.md, "Releases", for the whole of it. In short: work
 for the week goes on branches `<release>/F|B|H/<What_it_does>` off
 `release/<release>` (named for the Monday it is released, e.g.
 `2026.10.W03`), merged back with `--no-ff` by Thursday, tested Friday,
