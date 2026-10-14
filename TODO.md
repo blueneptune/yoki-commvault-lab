@@ -8,16 +8,19 @@ commit is on.
 
 | | Item | Commit | Release |
 |---|---|---|---|
-| 1 | Stand-alone: own connection code, project, README | | |
+| ~~1~~ | ~~Stand-alone: own connection code, project, README~~ | `58a5e90`, `084724e`, `6c2ece3` | 2026.10.W03 |
 | 2 | On GitHub | | |
 | 3 | A login of the lab's own on cv-toaster | | |
 | 4 | `lab/` removed from blt, pointing here | | |
 
-1. **Stand-alone.** The lab's five commits from blt, replayed here with
+1. ~~**Stand-alone.**~~ **Done 2026-10-14.** The lab's five commits from blt, replayed here with
    their authors and dates; then its own copy of blt's settings, token
    write-back and lock code (`src/commvault_lab/`), its own
    `pyproject.toml` taking the SDK from the sibling checkout, and this
    repository's README. Branch `2026.10.W03/F/Standalone_lab`.
+   Preflight run against cv-toaster from here, on blt's token file:
+   passed, and the token renewal it did on the way was saved to
+   blt's file correctly.
 
 2. **On GitHub.** `blueneptune/yoki-commvault-lab`, private, created by
    hand (no `gh` on this machine); then push `main`, the release branch
