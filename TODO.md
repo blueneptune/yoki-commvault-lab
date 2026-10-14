@@ -9,7 +9,7 @@ commit is on.
 | | Item | Commit | Release |
 |---|---|---|---|
 | ~~1~~ | ~~Stand-alone: own connection code, project, README~~ | `58a5e90`, `084724e`, `6c2ece3` | 2026.10.W03 |
-| 2 | On GitHub | | |
+| ~~2~~ | ~~On GitHub~~ | | 2026.10.W03 |
 | 3 | A login of the lab's own on cv-toaster | | |
 | 4 | `lab/` removed from blt, pointing here | | |
 
@@ -22,9 +22,10 @@ commit is on.
    passed, and the token renewal it did on the way was saved to
    blt's file correctly.
 
-2. **On GitHub.** `blueneptune/yoki-commvault-lab`, private, created by
-   hand (no `gh` on this machine); then push `main`, the release branch
-   and the work branch.
+2. ~~**On GitHub.**~~ **Done 2026-10-14.**
+   `git@github.com:blueneptune/yoki-commvault-lab.git`, created by hand
+   (no `gh` on this machine); `main`, `release/2026.10.W03` and
+   `2026.10.W03/F/Standalone_lab` pushed.
 
 3. **A login of the lab's own.** A Commvault user for the lab on
    cv-toaster, with an access token and refresh token, in
