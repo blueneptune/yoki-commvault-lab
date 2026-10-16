@@ -2,12 +2,10 @@
 
 The same keys, and the same file format, as blt's own CommCell files, so
 a file can be copied between the two. What is different is that the lab
-has a login of its own: renewing an access token replaces the pair on
+has a token of its own: renewing an access token replaces the pair on
 the CommServe, so two tools renewing one pair from two copies of the
-file lock each other out. Until the lab has its own token, point it at
-blt's config directory instead (--config-dir, or CV_LAB_CONFIG_DIR):
-then both renew the one file, under the one lock, as they did when the
-lab lived inside blt.
+file lock each other out. --config-dir or CV_LAB_CONFIG_DIR choose
+another directory of the lab's own files.
 """
 
 from __future__ import annotations

@@ -47,20 +47,15 @@ files (`config/commcell.env.example`). With an access token and its
 refresh token it renews the token itself and writes the new pair back
 to that file, under a lock - the same code as blt's.
 
-**The lab should have a login of its own.** Renewing a token replaces
-the pair on the CommServe, so a token copied from blt's file and renewed
-here leaves blt holding a dead one, and the other way round. Until the
-lab has its own login and token, do not copy blt's file - point the lab
-at blt's config directory instead, so that both renew the one file and
-take turns through the one lock:
+**The lab has a token of its own**, in `config/cv-toaster.env` here.
+Renewing a token replaces the pair on the CommServe, so a pair can live
+in one place only: never copy blt's token into the lab, or the lab's
+into blt - whichever renews second is locked out. For a new CommCell,
+create a token for the lab in Command Center.
 
-```
-export CV_LAB_CONFIG_DIR=~/development/blt-v5-poc/config
-lab/00-preflight.sh
-```
-
-(or `--config-dir` on any script). Once the lab has its own token, put
-it in `config/cv-toaster.env` here and drop the variable.
+blt keeps cv-toaster's token in its Prefect block now, so the copy in
+`blt-v5-poc/config/cv-toaster.env` is stale: do not point
+`CV_LAB_CONFIG_DIR` or `--config-dir` at blt's config directory.
 
 ## The SDK it runs
 

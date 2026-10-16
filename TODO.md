@@ -27,11 +27,13 @@ commit is on.
    (no `gh` on this machine); `main`, `release/2026.10.W03` and
    `2026.10.W03/F/Standalone_lab` pushed.
 
-3. **A login of the lab's own.** A Commvault user for the lab on
-   cv-toaster, with an access token and refresh token, in
-   `config/cv-toaster.env` here. Until then the lab runs on blt's token
-   file through `CV_LAB_CONFIG_DIR` (README, "Connecting"). Done in
-   Command Center, by hand.
+3. ~~**A token of the lab's own.**~~ **Done 2026-10-16**: an access
+   token and refresh token of its own for cv-toaster, created in
+   Command Center, in `config/cv-toaster.env` here; proven read-only
+   the same day. Needed now rather than later: blt's cv-toaster token
+   moved into its Prefect block, so the copy in
+   `blt-v5-poc/config/cv-toaster.env` went stale and
+   `CV_LAB_CONFIG_DIR` pointed at it no longer works.
 
 4. ~~**Out of blt.**~~ **Done 2026-10-14**, blt `d8c6c84`, merged into
    blt's `release/2026.10.W03`. In `blt-v5-poc`, on its release branch: remove
