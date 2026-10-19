@@ -5,4 +5,4 @@ set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")/.."
 COMMCELL="cv-toaster"
 if [[ $# -gt 0 && "$1" != -* ]]; then COMMCELL="$1"; shift; fi
-exec uv run --extra collector python lab/cvlab.py sql-backup --commcell "$COMMCELL" "$@"
+exec uv run python lab/cvlab.py sql-backup --commcell "$COMMCELL" "$@"

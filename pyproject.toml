@@ -1,0 +1,50 @@
+[project]
+name = "yoki-commvault-lab"
+version = "0.1.0"
+description = "A lab rig that makes a Commvault CommServe produce real jobs - for proving the Commvault SDK and testing blt against the real thing."
+requires-python = ">=3.12"
+dependencies = [
+    "commvault-sdk",
+    "sdk-primer",
+    "httpx>=0.28",
+    "loguru>=0.7",
+    "pydantic>=2.13",
+    "pydantic-settings>=2.6",
+    "python-dotenv>=1.0",
+]
+
+[tool.uv.sources]
+sdk-primer = { git = "https://github.com/blueneptune/sdk-primer-core.git", tag = "v0.1.0" }
+# The lab is where the SDK's new calls are proven before they are
+# released, so it uses the sibling checkout - whatever branch that is
+# on. To run the lab against a released SDK instead:
+#   commvault-sdk = { git = "https://github.com/blueneptune/yoki-py-commvault-sdk.git", tag = "v0.2.0" }
+commvault-sdk = { path = "../yoki-py-commvault-sdk", editable = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/commvault_lab"]
+
+[dependency-groups]
+dev = [
+    "mypy>=2.3.1",
+    "pytest>=9.1.1",
+    "ruff>=0.16.8",
+]
+
+[tool.ruff]
+line-length = 100
+extend-exclude = ["*.md"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+files = ["src", "lab/cvlab.py"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
