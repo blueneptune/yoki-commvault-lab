@@ -405,6 +405,36 @@ class Lab:
                 podman("rm", "-f", "-t", "0", name, check=True)
         return False
 
+    def repoint(self, name: str, cs_address: str) -> None:
+        """Point an existing client at the CommServe's current address.
+        The address is fixed by --add-host when the container is created,
+        and podman rewrites /etc/hosts from it on every start - so after
+        the CommServe changes address, a restarted client keeps calling
+        the old one. Recreating would lose the installed agent, so fix
+        /etc/hosts in place. No agent restart: lookups read /etc/hosts
+        each time, and `commvault restart` in these containers leaves the
+        old services as zombies that stop the new ones starting."""
+        hosts = podman("exec", name, "cat", "/etc/hosts", check=True).stdout
+        cs = self.cs_name.lower()
+        lines, changed = [], False
+        for line in hosts.splitlines():
+            fields = line.split()
+            if (
+                len(fields) > 1
+                and fields[0] != cs_address
+                and cs in (f.lower() for f in fields[1:])
+            ):
+                line, changed = "\t".join([cs_address, *fields[1:]]), True
+            lines.append(line)
+        if not changed:
+            return
+        # /etc/hosts is a bind mount: overwrite it, don't replace it.
+        subprocess.run(
+            ["podman", "exec", "-i", name, "sh", "-c", "cat > /etc/hosts"],
+            input="\n".join(lines) + "\n", text=True, check=True,
+        )  # fmt: skip
+        logger.info("{}: now pointed at {} {}", name, self.cs_name, cs_address)
+
     def clients_up(self, count: int, cs_address: str) -> None:
         plans = self.plans()
         if self.plan_name not in plans:
@@ -423,6 +453,7 @@ class Lab:
             if exists and registered:
                 podman("start", name, check=True)
                 logger.info("{}: already a client, container started", name)
+                self.repoint(name, cs_address)
                 continue
             if exists:
                 # Left over from an install that never registered.
@@ -458,6 +489,7 @@ class Lab:
         if exists and registered:
             podman("start", name, check=True)
             logger.info("{}: already a client, container started", name)
+            self.repoint(name, cs_address)
         else:
             if exists:
                 podman("rm", "-f", "-t", "0", name, check=True)

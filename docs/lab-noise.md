@@ -123,6 +123,15 @@ container before each round, so incrementals have a change to pick up.
 `90-teardown.sh` now also deletes the `blt-lab-NN` clients from the
 CommServe and removes the containers.
 
+**If the CommServe changes address**, re-run `lab/30-clients.sh` (and
+`lab/40-sql.sh`). A container's CommServe address is fixed by
+`--add-host` when it is created and podman writes it back into
+`/etc/hosts` on every start, so the script rewrites `/etc/hosts` in each
+existing client to the address the CommServe name resolves to now. It
+does not restart the agent: lookups read `/etc/hosts` each time, and
+`commvault restart` inside these containers leaves the old services as
+zombies, so `cvd` stays down until the container is restarted.
+
 ### What has and hasn't been proven
 
 | | |
@@ -385,3 +394,18 @@ blt after the following collection: 26 jobs - 20 completed, 3 failed,
 
 Still to do: an incremental round, `--loop`, a container restart, and
 teardown.
+
+### CommServe moved to a new host, 2026-10-26
+
+cv-toaster moved to an ESX host and came back as 192.168.51.24 (was
+.22), with its data volumes on shifted drive letters (fixed on the
+CommServe). All twelve lab containers still had `CV-TOASTER` at .22, so
+the container jobs of the first noise round after the move sat in
+Pending. Rewriting `/etc/hosts` was enough; a `commvault restart` tried
+first left `cvd` as a zombie in every file client, and those containers
+needed a restart. `30-clients.sh` now does the rewrite (see Stage 2).
+After it, the ten Pending container jobs (656-665) ran, and blt followed
+them from Pending to Completed. The same round: `etc`, `drivers`
+Completed, `missing` Failed, `fonts` Killed. The SQL clients' plan
+schedules, catching up, gave Differentials that Failed to Start
+("Another backup is running") next to Completed log backups.
