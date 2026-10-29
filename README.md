@@ -80,15 +80,14 @@ go in `docs/lab-noise.md`.
 
 ## Releases
 
-The same weekly cadence as blt and the SDK, and the same branch names -
-see the SDK's docs/development.md, "Releases", for the whole of it. In short: work
-for the week goes on branches `<release>/F|B|H/<What_it_does>` off
-`release/<release>` (named for the Monday it is released, e.g.
-`2026.10.W03`), merged back with `--no-ff` by Thursday, tested Friday,
-merged to `main` and tagged on Monday. Branches are deleted locally once
-merged and from GitHub a month after their release. Commit small, with
-tests where there is something to test, and say in each commit what
-running it against the lab showed.
+The same as blt and the SDK - see the SDK's docs/development.md,
+"Releases". In short: work goes on `F|B|H/<What_it_does>` branches off
+`main`, merged back with `--no-ff` as soon as it is finished and the
+checks pass, and the branch is then deleted. The weekly release train
+(`<release>` branches, merged Thursday, tested Friday, tagged Monday)
+was paused on 2026-10-29 while blt and the SDKs are being built. Commit
+small, with tests where there is something to test, and say in each
+commit what running it against the lab showed.
 
 `docs/failure-catalogue.md` lists the ways a backup can fail, the
 codes Commvault gives them, and which ones the lab can cause.
