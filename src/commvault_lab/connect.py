@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
+import httpx
 from commvault_sdk import CommvaultClient, TokenSet
 
 from .lock import wait_lock
@@ -19,7 +20,10 @@ def commvault_client(
     config_dir: Path,
     *,
     allow_changes: bool = False,
+    transport: httpx.BaseTransport | None = None,
 ) -> CommvaultClient:
+    """`transport`, if given, carries every request (the SDK's live
+    tests pass their recorder)."""
     tokens = None
     if settings.cv_access_token:
         tokens = TokenSet(
@@ -48,6 +52,7 @@ def commvault_client(
         page_size=settings.cv_page_size,
         timeout=settings.cv_timeout_seconds,
         allow_changes=allow_changes,
+        transport=transport,
         deployment=settings.cv_deployment,
         max_calls_per_hour=settings.cv_max_calls_per_hour,
     )
